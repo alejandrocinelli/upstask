@@ -4,7 +4,7 @@ import { ITask } from "./Task";
 // el populatedDOc similar al join de sql para relacionar dos modelos, en este caso tasks tiene que ser de tipo ITASK
 // tasks es un arreglo de tareas 
 
-export type ProyectType = Document & {
+export interface Iproject extends Document  {
     projectName : string,
     clientName : string,
     description : string,
@@ -39,6 +39,6 @@ const ProjectSchema : Schema = new Schema({
     ]
 }, {timestamps : true})
 
-const Project = mongoose.model<ProyectType>('Project', ProjectSchema)
+const Project = mongoose.model<Iproject>('Project', ProjectSchema)
 
 export default Project 
