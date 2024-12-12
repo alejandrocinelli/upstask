@@ -20,8 +20,20 @@ export class TaskController {
            
             
         } catch (error) {
-            console.log(error)
+            res.status(500).json({error : error.message })
         }
+    }
+
+    static getProjectTask = async (req : Request, res : Response) => {
+    
+        try {
+            const tasks = await Task.find({project: req.project.id}).populate("project")
+            // aca estamos haciendo tipo un join para relacionar con el modelo project
+            res.json(tasks)
+        } catch (error) {
+            res.status(500).json({error : error.message })
+        }
+    
     }
    }
  
