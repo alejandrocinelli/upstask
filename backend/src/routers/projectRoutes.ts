@@ -36,17 +36,40 @@ router.delete('/:id',
 
 
 // routes for tasks 
+router.param('projectId', validProjetExist)
+
+/* router.param`:
+ * - Middleware que se ejecuta automáticamente cuando se encuentra un parámetro `projectId` en la ruta.
+* - Valida si el proyecto existe utilizando la función `validProjetExist`.*/
 
 router.post('/:projectId/tasks', 
-    validProjetExist,
+    
     body("name").notEmpty().withMessage("El nombre de la tarea es obligatoria"),
     body("description").notEmpty().withMessage("Descripcion es Obligatorio"),
     handleInputError,
     TaskController.createTask
 )
 
-router.get('/:projectId/tasks', validProjetExist,
+router.get('/:projectId/tasks', 
     TaskController.getProjectTask
+)
+
+router.get('/:projectId/tasks/:taskId', 
+    param("taskId").isMongoId().withMessage("ID no valido"),
+    TaskController.getTaskById
+)
+
+router.put('/:projectId/tasks/:taskId', 
+    param("taskId").isMongoId().withMessage("ID no valido"),
+    body("name").notEmpty().withMessage("El nombre de la tarea es obligatoria"),
+    body("description").notEmpty().withMessage("Descripcion es Obligatorio"),
+    handleInputError,
+    TaskController.upDateTask
+)
+
+router.delete('/:projectId/tasks/:taskId', 
+    param("taskId").isMongoId().withMessage("ID no valido"),
+    TaskController.deleteTask
 )
 
 export default router 
